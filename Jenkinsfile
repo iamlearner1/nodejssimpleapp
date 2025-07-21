@@ -29,15 +29,26 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    sh "docker stop $CONTAINER_NAME || true"
-                    sh "docker rm $CONTAINER_NAME || true"
-                    sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 $IMAGE_NAME"
-                }
-            }
+     stage('Run Docker Container') {
+    steps {
+        script {
+            // Stop and remove container only if it exists
+            sh '''
+                if [ $(docker ps -aq -f name=$CONTAINER_NAME) ]; then
+                  echo "Stopping and removing existing container..."
+                  docker stop $CONTAINER_NAME || true
+                  docker rm $CONTAINER_NAME || true
+                else
+                  echo "No container named $CONTAINER_NAME found."
+                fi
+            '''
+
+            // Run the new container
+            sh "docker run -d --name $CONTAINER_NAME -p 3000:3000 $IMAGE_NAME"
         }
+    }
+}
+
     }
 
     post {
