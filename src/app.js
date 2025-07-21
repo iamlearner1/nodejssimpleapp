@@ -14,3 +14,9 @@ app.get("/message",()=>{
   res.send("this is the message endpoint");
 })
 
+
+app.get("/cricket",(req,res)=>{
+
+  res.send("I am playing cricket")
+
+})
