@@ -13,7 +13,8 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git url: 'https://github.com/iamlearner1/nodejssimpleapp.git', branch: 'main'
+                git url: 'https://github.com/iamlearner1/nodejssimpleapp.git', branch: 'main',
+                    credentialsId: 'github-pat'
             }
         }
 
