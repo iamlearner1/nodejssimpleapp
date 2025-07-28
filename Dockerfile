@@ -1,8 +1,17 @@
-FROM node:iron-bullseye
-COPY package.json /app/
-COPY src /app/src
-WORKDIR /app/
+# Use Node.js LTS image
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy files
+COPY package*.json ./
 RUN npm install
-CMD ["node","src/app.js"]
 
+COPY . .
 
+# Expose port
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]
